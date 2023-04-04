@@ -9,6 +9,7 @@
 		"serve": "vite preview"
 	},
 	"dependencies": {
+		"@tanstack/react-query-devtools": "^4.29.0",
 		"@uidotdev/react-query-api": "^0.1.18",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

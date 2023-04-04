@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import App from "./App"
 import "./index.css"
 
+import { ReactQueryDevtools } from "react-query/devtools"
+
 const queryClient = new QueryClient()
 
 new Promise(res => setTimeout(res, 100))
@@ -23,6 +25,7 @@ new Promise(res => setTimeout(res, 100))
 						<App />
 					</div>
 				</HashRouter>
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		)
 	})
