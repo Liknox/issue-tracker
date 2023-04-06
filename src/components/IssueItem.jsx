@@ -11,7 +11,7 @@ export function IssueItem({ title, number, assignee, commentCount, createdBy, cr
 		<li>
 			<div>
 				{status === "done" || status === "cancelled" ? (
-					<GoIssueClosed style={{ color: "lime" }} />
+					<GoIssueClosed style={{ color: "red" }} />
 				) : (
 					<GoIssueOpened style={{ color: "lime" }} />
 				)}
