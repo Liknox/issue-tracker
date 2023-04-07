@@ -3,22 +3,20 @@ import { IssueItem } from "./IssueItem"
 import { useState } from "react"
 import axios from "axios"
 import fetchWithError from "../helpers/fetchWithError"
+import Loader from "./Loader"
 
 export default function IssuesList({ labels, status }) {
 	const [searchValue, setSearchValue] = useState("")
 
-	const issuesQuery = useQuery(
-		["issues", { labels, status }],
-		() => {
-			const statusString = status ? `&status=${status}` : ""
-			const labelsString = labels.map(e => `labels[]=${e}`).join("&")
-			return fetchWithError(`/api/issues?${labelsString}${statusString}`)
-		},
-	)
+	const issuesQuery = useQuery(["issues", { labels, status }], ({ signal }) => {
+		const statusString = status ? `&status=${status}` : ""
+		const labelsString = labels.map(e => `labels[]=${e}`).join("&")
+		return fetchWithError(`/api/issues?${labelsString}${statusString}`, { signal })
+	})
 
 	const searchQuery = useQuery(
 		["issues", "search", searchValue],
-		() => axios.get(`/api/search/issues?q=${searchValue}`).then(res => res.data),
+		({ signal }) => axios.get(`/api/search/issues?q=${searchValue}`, { signal }).then(res => res.data),
 		{
 			enabled: !!searchValue.length,
 		}
@@ -45,7 +43,7 @@ export default function IssuesList({ labels, status }) {
 					}}
 				/>
 			</form>
-			<h2>Issues List</h2>
+			<h2>Issues List {issuesQuery.status === "loading" ? <Loader /> : null}</h2>
 			{issuesQuery.isLoading ? (
 				<p>Loading...</p>
 			) : issuesQuery.data?.length === 0 ? (
