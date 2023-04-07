@@ -1,6 +1,7 @@
 import { useQuery } from "react-query"
 import { IssueItem } from "./IssueItem"
 import { useState } from "react"
+import axios from "axios"
 
 export default function IssuesList({ labels, status }) {
 	const [searchValue, setSearchValue] = useState("")
@@ -8,12 +9,12 @@ export default function IssuesList({ labels, status }) {
 	const issuesQuery = useQuery(["issues", { labels, status }], () => {
 		const statusString = status ? `&status=${status}` : ""
 		const labelsString = labels.map(e => `labels[]=${e}`).join("&")
-		return fetch(`/api/issues?${labelsString}${statusString}`).then(res => res.json())
+		return axios.get(`/api/issues?${labelsString}${statusString}`).then(res => res.data)
 	})
 
 	const searchQuery = useQuery(
 		["issues", "search", searchValue],
-		() => fetch(`/api/search/issues?q=${searchValue}`).then(res => res.json()),
+		() => axios.get(`/api/search/issues?q=${searchValue}`).then(res => res.data),
 		{
 			enabled: !!searchValue.length,
 		}
