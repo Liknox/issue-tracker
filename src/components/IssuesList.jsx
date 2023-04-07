@@ -14,9 +14,6 @@ export default function IssuesList({ labels, status }) {
 			const labelsString = labels.map(e => `labels[]=${e}`).join("&")
 			return fetchWithError(`/api/issues?${labelsString}${statusString}`)
 		},
-		{
-			staleTime: 1000 * 60,
-		}
 	)
 
 	const searchQuery = useQuery(
