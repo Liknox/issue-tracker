@@ -6,11 +6,17 @@ import axios from "axios"
 export default function IssuesList({ labels, status }) {
 	const [searchValue, setSearchValue] = useState("")
 
-	const issuesQuery = useQuery(["issues", { labels, status }], () => {
-		const statusString = status ? `&status=${status}` : ""
-		const labelsString = labels.map(e => `labels[]=${e}`).join("&")
-		return axios.get(`/api/issues?${labelsString}${statusString}`).then(res => res.data)
-	})
+	const issuesQuery = useQuery(
+		["issues", { labels, status }],
+		() => {
+			const statusString = status ? `&status=${status}` : ""
+			const labelsString = labels.map(e => `labels[]=${e}`).join("&")
+			return axios.get(`/api/issues?${labelsString}${statusString}`).then(res => res.data)
+		},
+		{
+			staleTime: 1000 * 60,
+		}
+	)
 
 	const searchQuery = useQuery(
 		["issues", "search", searchValue],
