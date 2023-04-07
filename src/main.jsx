@@ -8,7 +8,13 @@ import "./index.css"
 
 import { ReactQueryDevtools } from "react-query/devtools"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+   defaultOptions: {
+      queries: {
+         refetchOnWindowFocus: false
+      }
+   }
+})
 
 new Promise(res => setTimeout(res, 100))
 	.then(() =>
