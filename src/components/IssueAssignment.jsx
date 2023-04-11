@@ -48,7 +48,7 @@ export default function IssueAssignment({ assignee, issueNumber }) {
 		<div className="issue-options">
 			<div>
 				<span>Assignment</span>
-				{user.isSuccess && (
+				{user?.isSuccess && (
 					<div>
 						<img src={user.data.profilePictureUrl} />
 						{user.data.name}
